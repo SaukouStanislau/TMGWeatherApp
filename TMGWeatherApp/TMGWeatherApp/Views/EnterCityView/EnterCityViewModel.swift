@@ -10,9 +10,10 @@ import Combine
 
 final class EnterCityViewModel: ObservableObject {
     enum EnterCityFetchingStatus {
-        case noInternet
-        case unknownError
         case fetched(cityWeather: CityWeatherViewModel)
+        case noInternet
+        case noCity
+        case unknownError
     }
 
     private let weatherService: FetchWeatherInfoServiceInterface
@@ -55,12 +56,12 @@ private extension EnterCityViewModel {
 
     func handleError(_ error: Error) {
         switch error {
-        case let decodingError as DecodingError:
-            debugPrint("DecodingError")
-        case let networkError as NetworkError where networkError == .noInternet:
+        case let networkError as FetchWeatherInfoServiceError where networkError == .noInternet:
             status = .noInternet
+        case let networkError as FetchWeatherInfoServiceError where networkError == .wrongCityName:
+            status = .noCity
         default:
-            debugPrint("unknown")
+            status = .unknownError
         }
     }
 }

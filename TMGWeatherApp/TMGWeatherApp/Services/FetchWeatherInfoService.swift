@@ -12,6 +12,13 @@ protocol FetchWeatherInfoServiceInterface {
     func getWeatherInfoForCity(_ city: String) -> Future<WeatherInfo, Error>
 }
 
+enum FetchWeatherInfoServiceError: Error {
+    case invalidURL
+    case noInternet
+    case wrongCityName
+    case unknown
+}
+
 final class OpenWeatherMapService: FetchWeatherInfoServiceInterface {
     private let baseURL = "https://api.openweathermap.org/data/2.5/weather"
     private let appIDQuerryParameter = ["appid": "91fcbc3ce738aa384ab12f50ccb1f780"]
@@ -21,14 +28,24 @@ final class OpenWeatherMapService: FetchWeatherInfoServiceInterface {
     func getWeatherInfoForCity(_ city: String) -> Future<WeatherInfo, Error> {
         Future<WeatherInfo, Error> { [weak self] promise in
             guard let self = self, let urlWithComponents = getWeatherURLWithComponentsForCity(city) else {
-                return promise(.failure(NetworkError.invalidURL))
+                return promise(.failure(FetchWeatherInfoServiceError.invalidURL))
             }
 
             debugPrint("URL is \(urlWithComponents.absoluteString)")
             URLSession.shared.dataTaskPublisher(for: urlWithComponents)
-                .tryMap { (data, response) -> Data in
-                    guard let httpResponse = response as? HTTPURLResponse, 200...299 ~= httpResponse.statusCode else {
-                        throw NetworkError.responseError
+                .tryMap { [weak self] (data, response) -> Data in
+                    guard let httpResponse = response as? HTTPURLResponse else {
+                        throw FetchWeatherInfoServiceError.unknown
+                    }
+
+                    guard httpResponse.statusCode != 404 else {
+                        throw self?.checkDataForWrongCityName(data) == true
+                            ? FetchWeatherInfoServiceError.wrongCityName
+                            : FetchWeatherInfoServiceError.unknown
+                    }
+
+                    guard 200...299 ~= httpResponse.statusCode else {
+                        throw FetchWeatherInfoServiceError.unknown
                     }
 
                     return data
@@ -39,12 +56,12 @@ final class OpenWeatherMapService: FetchWeatherInfoServiceInterface {
                         switch error {
                         case let decodingError as DecodingError:
                             promise(.failure(decodingError))
-                        case let apiError as NetworkError:
+                        case let apiError as FetchWeatherInfoServiceError:
                             promise(.failure(apiError))
                         case let urlError as URLError where urlError.code == .notConnectedToInternet:
-                            promise(.failure(NetworkError.noInternet))
+                            promise(.failure(FetchWeatherInfoServiceError.noInternet))
                         default:
-                            promise(.failure(NetworkError.unknown))
+                            promise(.failure(FetchWeatherInfoServiceError.unknown))
                         }
                     }
                 }, receiveValue: { promise(.success($0)) })
@@ -68,5 +85,10 @@ private extension OpenWeatherMapService {
 
     func queryParametersToFetchWeather(for city: String) -> [String: String] {
         ["q": city].merging(appIDQuerryParameter, uniquingKeysWith: +)
+    }
+
+    func checkDataForWrongCityName(_ data: Data) -> Bool {
+        let string = String(data: data, encoding: .utf8)
+        return string?.contains("city not found") == true
     }
 }

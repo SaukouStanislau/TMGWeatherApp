@@ -44,8 +44,10 @@ struct EnterCityView: View {
             switch status {
             case .noInternet:
                 noInternetMessage
+            case .noCity:
+                noCityMessage
             case .unknownError:
-                Text("")
+                somethingWentWrongMessage
             case let .fetched(cityWeather):
                 cityWeatherNavigationLink(for: cityWeather)
             }
@@ -62,6 +64,16 @@ struct EnterCityView: View {
 
     private var noInternetMessage: some View {
         Text("Can't load data due to no Internet Connection")
+            .font(.body)
+    }
+
+    private var noCityMessage: some View {
+        Text("Can't find data, check if your city name is correct")
+            .font(.body)
+    }
+
+    private var somethingWentWrongMessage: some View {
+        Text("Something went wrong, please try again")
             .font(.body)
     }
 
