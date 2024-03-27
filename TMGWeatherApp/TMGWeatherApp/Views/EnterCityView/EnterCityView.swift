@@ -15,25 +15,61 @@ struct EnterCityView: View {
         NavigationStack {
             VStack {
                 Spacer()
-                TextField("Enter city name", text: $cityName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .multilineTextAlignment(.center)
-                    .font(.title)
-                    .padding()
-                if let cityWeather = model.cityWeather {
-                    NavigationLink(destination: CityWeatherView(cityWeather: cityWeather)) {
-                        VStack {
-                            Text("Click to see detailed weather")
-                            CityWeatherView(cityWeather: cityWeather)
-                        }
-                    }
-                }
+                resultView
                 Spacer()
-            }.onChange(of: cityName) { _, newValue in
-                model.didTriggerChangeCity(newValue)
+                enterCityTextField
+            }
+            .background {
+                gradientBackground
             }
             .navigationBarTitle("Weather", displayMode: .inline)
             .toolbarBackground(.visible, for: .navigationBar)
+            .onChange(of: cityName) { _, newValue in
+                model.didTriggerChangeCity(newValue)
+            }
+        }
+    }
+
+    private var enterCityTextField: some View {
+        TextField("Enter city name", text: $cityName)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .multilineTextAlignment(.center)
+            .font(.title)
+            .padding()
+    }
+
+    @ViewBuilder
+    private var resultView: some View {
+        if let status = model.status {
+            switch status {
+            case .noInternet:
+                noInternetMessage
+            case .unknownError:
+                Text("")
+            case let .fetched(cityWeather):
+                cityWeatherNavigationLink(for: cityWeather)
+            }
+        }
+    }
+
+    private var gradientBackground: some View {
+        LinearGradient(
+            gradient: Gradient(colors: [Color.blue, Color.lightBlue]),
+            startPoint: .top,
+            endPoint: .bottom
+        )
+    }
+
+    private var noInternetMessage: some View {
+        Text("Can't load data due to no Internet Connection")
+            .font(.body)
+    }
+
+    private func cityWeatherNavigationLink(for cityWeather: CityWeatherViewModel) -> some View {
+        NavigationLink(destination: CityWeatherView(cityWeather: cityWeather)) {
+            VStack {
+                ShortCityWeatherView(cityWeather: cityWeather)
+            }
         }
     }
 }

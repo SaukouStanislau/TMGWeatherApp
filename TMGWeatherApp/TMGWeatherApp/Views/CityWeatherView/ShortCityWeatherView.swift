@@ -10,15 +10,21 @@ import SwiftUI
 struct ShortCityWeatherView: View {
     let cityWeather: CityWeatherViewModel
 
-    init(cityWeather: CityWeatherViewModel) {
-        self.cityWeather = cityWeather
-    }
-
     var body: some View {
         HStack {
-            Text(cityWeather.city)
+            cityName
             Spacer()
-            Text(cityWeather.formattedTemperatureInCelsius)
+            temperature
+        }.background {
+            RoundedRectangle(cornerRadius: 20.0).foregroundStyle(Color.gray)
         }.font(.title).bold().padding()
+    }
+
+    private var cityName: some View {
+        Text(cityWeather.city).padding()
+    }
+
+    private var temperature: some View {
+        Text(cityWeather.formattedTemperatureInCelsius).padding()
     }
 }
