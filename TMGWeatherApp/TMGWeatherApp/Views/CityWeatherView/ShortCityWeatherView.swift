@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ShortCityWeatherView: View {
+    static let backgroundViewCornerRadius: CGFloat = 20.0
+    static let backgroundViewOpacity: CGFloat = 0.4
+
     let cityWeather: CityWeatherViewModel
 
     var body: some View {
@@ -16,8 +19,8 @@ struct ShortCityWeatherView: View {
             Spacer()
             temperature
         }.background {
-            RoundedRectangle(cornerRadius: 20.0).foregroundStyle(Color.gray)
-        }.font(.title).bold().padding()
+            backgroundView
+        }.font(.largeTitle).bold().padding()
     }
 
     private var cityName: some View {
@@ -26,5 +29,11 @@ struct ShortCityWeatherView: View {
 
     private var temperature: some View {
         Text(cityWeather.formattedTemperatureInCelsius).padding()
+    }
+
+    private var backgroundView: some View {
+        RoundedRectangle(cornerRadius: ShortCityWeatherView.backgroundViewCornerRadius)
+            .foregroundStyle(Color.gray)
+            .opacity(ShortCityWeatherView.backgroundViewOpacity)
     }
 }
