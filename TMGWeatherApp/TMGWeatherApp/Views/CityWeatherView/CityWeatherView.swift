@@ -19,11 +19,7 @@ struct CityWeatherView: View {
                 temperature
                 weatherStatusImage
                 Spacer()
-                Picker("Select temperature unit", selection: $cityWeather.temperatureUnit) {
-                    ForEach(TemperatureUnit.allCases, id: \.self) {
-                        Text($0.rawValue)
-                    }
-                }.pickerStyle(.menu)
+                temperatureUnitPicker
             }
         }
             .toolbarTitleDisplayMode(.inline)
@@ -51,6 +47,19 @@ private extension CityWeatherView {
                 .frame(height: CityWeatherView.weatherStatusImageSize.height)
         }
     }
+
+    var temperatureUnitPicker: some View {
+        Menu {
+            Picker("Select temperature unit", selection: $cityWeather.temperatureUnit) {
+                ForEach(TemperatureUnit.allCases, id: \.self) {
+                    Text($0.rawValue)
+                }
+            }
+        } label: {
+            Text("\(cityWeather.temperatureUnit.rawValue) ⇳")
+                .foregroundStyle(.red)
+                .font(.largeTitle)
+        }    }
 
     var gradientBackground: some View {
         LinearGradient(
