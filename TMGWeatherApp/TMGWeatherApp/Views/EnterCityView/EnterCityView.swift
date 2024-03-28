@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EnterCityView: View {
-    @ObservedObject var model: EnterCityViewModel = EnterCityViewModel(weatherService: OpenMapFetchWeatherInfoService())
+    @ObservedObject var model: EnterCityViewModel
     @State var cityName: String = ""
 
     var body: some View {
@@ -56,6 +56,8 @@ struct EnterCityView: View {
         }
     }
 
+    // In the future this could be changed to show gradient depending on weather in city (dark color for night and bad weather, light - for day and good)
+
     private var gradientBackground: some View {
         LinearGradient(
             gradient: Gradient(colors: [Color.blue, Color.lightBlue]),
@@ -94,5 +96,5 @@ struct EnterCityView: View {
 }
 
 #Preview {
-    EnterCityView()
+    EnterCityView(model: EnterCityViewModel(weatherService: OpenMapFetchWeatherInfoService()))
 }
