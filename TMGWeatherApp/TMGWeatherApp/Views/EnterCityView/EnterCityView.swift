@@ -92,3 +92,7 @@ struct EnterCityView: View {
         }
     }
 }
+
+#Preview {
+    EnterCityView()
+}

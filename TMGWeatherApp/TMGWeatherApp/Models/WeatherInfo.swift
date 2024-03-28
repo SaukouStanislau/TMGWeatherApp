@@ -48,3 +48,12 @@ extension WeatherInfo {
         }
     }
 }
+
+extension WeatherInfo {
+    static var previewWeatherInfo: WeatherInfo {
+        WeatherInfo(
+            weather: [WeatherStatus(status: "Clear", description: "clear sky")],
+            temperatureInfo: TemperatureInfo(temperature: 289.72)
+        )
+    }
+}

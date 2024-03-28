@@ -37,3 +37,11 @@ struct ShortCityWeatherView: View {
             .opacity(ShortCityWeatherView.backgroundViewOpacity)
     }
 }
+
+#Preview {
+    let cityWeather = CityWeatherViewModel(
+        city: "Warsaw",
+        weatherInfo: WeatherInfo.previewWeatherInfo
+    )
+    return ShortCityWeatherView(cityWeather: cityWeather)
+}
