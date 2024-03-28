@@ -29,8 +29,12 @@ struct EnterCityView: View {
             }
         }
     }
+}
 
-    private var enterCityTextField: some View {
+// MARK: - Private
+
+private extension EnterCityView {
+    var enterCityTextField: some View {
         TextField("Enter city name", text: $cityName)
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .multilineTextAlignment(.center)
@@ -39,7 +43,7 @@ struct EnterCityView: View {
     }
 
     @ViewBuilder
-    private var resultView: some View {
+    var resultView: some View {
         if let status = model.status {
             switch status {
             case .noInternet:
@@ -58,7 +62,7 @@ struct EnterCityView: View {
 
     // In the future this could be changed to show gradient depending on weather in city (dark color for night and bad weather, light - for day and good)
 
-    private var gradientBackground: some View {
+    var gradientBackground: some View {
         LinearGradient(
             gradient: Gradient(colors: [Color.blue, Color.lightBlue]),
             startPoint: .top,
@@ -66,27 +70,27 @@ struct EnterCityView: View {
         )
     }
 
-    private var noInternetMessage: some View {
+    var noInternetMessage: some View {
         Text("Can't load data due to no Internet Connection")
             .font(.body)
     }
 
-    private var noCityMessage: some View {
+    var noCityMessage: some View {
         Text("Can't find data, check if your city name is correct")
             .font(.body)
     }
 
-    private var somethingWentWrongMessage: some View {
+    var somethingWentWrongMessage: some View {
         Text("Something went wrong, please try again")
             .font(.body)
     }
 
-    private var progressView: some View {
+    var progressView: some View {
         ProgressView()
             .controlSize(.large)
     }
 
-    private func cityWeatherNavigationLink(for cityWeather: CityWeatherViewModel) -> some View {
+    func cityWeatherNavigationLink(for cityWeather: CityWeatherViewModel) -> some View {
         NavigationLink(destination: CityWeatherView(cityWeather: cityWeather)) {
             VStack {
                 ShortCityWeatherView(cityWeather: cityWeather)

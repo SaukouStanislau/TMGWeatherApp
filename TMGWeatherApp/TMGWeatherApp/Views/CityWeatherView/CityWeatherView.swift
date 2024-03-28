@@ -11,9 +11,9 @@ import Kingfisher
 struct CityWeatherView: View {
     @ObservedObject var cityWeather: CityWeatherViewModel
 
-    @State var refreshImageOpacity: CGFloat = 0.0
-    @State var refreshImageScale: CGFloat = 1.0
-    @State var refreshImageRotation: CGFloat = 1.0
+    @State var refreshImageOpacity: CGFloat = .zero
+    @State var refreshImageScale: CGFloat = .zero
+    @State var refreshImageRotation: CGFloat = .zero
 
     var body: some View {
         ZStack {
@@ -32,9 +32,9 @@ struct CityWeatherView: View {
     }
 }
 
-private extension CityWeatherView {
-    static let weatherStatusImageSize: CGSize = CGSize(width: 200.0, height: 200.0)
+// MARK: - Private
 
+private extension CityWeatherView {
     var cityName: some View {
         Text(cityWeather.city).font(.title).padding()
     }
@@ -49,7 +49,7 @@ private extension CityWeatherView {
             KFImage(iconImageURL)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(height: CityWeatherView.weatherStatusImageSize.height)
+                .frame(height: CityWeatherView.Constants.weatherStatusImageSize.height)
         }
     }
 
@@ -97,21 +97,33 @@ private extension CityWeatherView {
 
     func onDragChanged(value: DragGesture.Value) {
         if value.translation.height > 0 {
-            withAnimation {
-                refreshImageOpacity += 0.1
-                refreshImageScale += 0.1
-                refreshImageRotation += 1
-            }
+            refreshImageOpacity += CityWeatherView.Constants.refreshImageOpacityOnDragDelta
+            refreshImageScale += CityWeatherView.Constants.refreshImageScaleOnDragDelta
+            refreshImageRotation += CityWeatherView.Constants.refreshImageRotationOnDragDelta
         }
     }
 
     func onDragEnded(value: DragGesture.Value) {
         withAnimation {
-            refreshImageOpacity = 0.0
-            refreshImageScale = 1.0
-            refreshImageRotation = 0.0
+            refreshImageOpacity = .zero
+            refreshImageScale = .zero
+            refreshImageRotation = .zero
             cityWeather.didTriggerNeedToRefresh()
         }
+    }
+}
+
+// MARK: - Constants
+
+private extension CityWeatherView {
+    struct Constants {
+        static let weatherStatusImageSize: CGSize = CGSize(width: 200.0, height: 200.0)
+
+        // Constants to animate refresh image on dragging
+
+        static let refreshImageOpacityOnDragDelta: Double = 0.1
+        static let refreshImageScaleOnDragDelta: Double = 0.1
+        static let refreshImageRotationOnDragDelta: Double = 1
     }
 }
 
