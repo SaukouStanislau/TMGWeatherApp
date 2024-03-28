@@ -21,6 +21,7 @@
 		757307572BB482F400E47B62 /* TMGDecodingWeatherInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757307562BB482F400E47B62 /* TMGDecodingWeatherInfoTests.swift */; };
 		757307692BB4EF2800E47B62 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 757307682BB4EF2800E47B62 /* Kingfisher */; };
 		7573076B2BB4FC2C00E47B62 /* WeatherIconsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7573076A2BB4FC2C00E47B62 /* WeatherIconsService.swift */; };
+		757307722BB5D2D200E47B62 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757307712BB5D2D200E47B62 /* DateFormatter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		757307542BB47CCF00E47B62 /* TemperatureConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureConverter.swift; sourceTree = "<group>"; };
 		757307562BB482F400E47B62 /* TMGDecodingWeatherInfoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMGDecodingWeatherInfoTests.swift; sourceTree = "<group>"; };
 		7573076A2BB4FC2C00E47B62 /* WeatherIconsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherIconsService.swift; sourceTree = "<group>"; };
+		757307712BB5D2D200E47B62 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				757307542BB47CCF00E47B62 /* TemperatureConverter.swift */,
+				757307712BB5D2D200E47B62 /* DateFormatter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				757307412BB476E300E47B62 /* CityWeatherViewModel.swift in Sources */,
 				7573076B2BB4FC2C00E47B62 /* WeatherIconsService.swift in Sources */,
 				7573072F2BB42A4300E47B62 /* EnterCityView.swift in Sources */,
+				757307722BB5D2D200E47B62 /* DateFormatter.swift in Sources */,
 				7573071D2BB4290800E47B62 /* TMGWeatherAppApp.swift in Sources */,
 				757307552BB47CCF00E47B62 /* TemperatureConverter.swift in Sources */,
 				7573073D2BB4761B00E47B62 /* CityWeatherView.swift in Sources */,

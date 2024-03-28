@@ -55,7 +55,8 @@ extension WeatherInfo {
     static var previewWeatherInfo: WeatherInfo {
         WeatherInfo(
             weather: [WeatherStatus(status: "Clear", description: "clear sky", icon: "01d")],
-            temperatureInfo: TemperatureInfo(temperature: 289.72)
+            temperatureInfo: TemperatureInfo(temperature: 289.72),
+            sunsetSunrise: SunsetSunriseInfo(sunriseTime: Date(), sunsetTime: Date())
         )
     }
 }

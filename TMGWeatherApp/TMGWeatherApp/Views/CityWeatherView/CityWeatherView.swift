@@ -22,6 +22,7 @@ struct CityWeatherView: View {
                 cityName
                 temperature
                 weatherStatusImage
+                sunriseSunsetStatus
                 Spacer()
                 temperatureUnitPicker
             }
@@ -51,6 +52,20 @@ private extension CityWeatherView {
                 .aspectRatio(contentMode: .fit)
                 .frame(height: CityWeatherView.Constants.weatherStatusImageSize.height)
         }
+    }
+
+    var sunriseSunsetStatus: some View {
+        HStack {
+            VStack {
+                Image(systemName: "sunrise").font(.largeTitle)
+                Text(cityWeather.sunriseTime).font(.title)
+            }
+            Spacer()
+            VStack {
+                Image(systemName: "sunset").font(.largeTitle)
+                Text(cityWeather.sunsetTime).font(.title)
+            }
+        }.padding()
     }
 
     var temperatureUnitPicker: some View {

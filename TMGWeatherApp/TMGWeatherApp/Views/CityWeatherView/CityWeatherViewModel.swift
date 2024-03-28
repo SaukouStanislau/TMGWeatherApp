@@ -52,6 +52,14 @@ final class CityWeatherViewModel: ObservableObject {
         return URL(string: stringURL)
     }
 
+    var sunriseTime: String {
+        DateToTimeFormatter.readableTime(date: weatherInfo.sunsetSunrise?.sunriseTime) ?? ""
+    }
+
+    var sunsetTime: String {
+        DateToTimeFormatter.readableTime(date: weatherInfo.sunsetSunrise?.sunsetTime) ?? ""
+    }
+
     // MARK: - Intents
 
     func didTriggerNeedToRefresh() {
