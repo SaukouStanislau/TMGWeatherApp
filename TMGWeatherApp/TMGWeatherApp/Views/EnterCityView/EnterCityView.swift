@@ -50,6 +50,8 @@ struct EnterCityView: View {
                 somethingWentWrongMessage
             case let .fetched(cityWeather):
                 cityWeatherNavigationLink(for: cityWeather)
+            case .processing:
+                progressView
             }
         }
     }
@@ -75,6 +77,11 @@ struct EnterCityView: View {
     private var somethingWentWrongMessage: some View {
         Text("Something went wrong, please try again")
             .font(.body)
+    }
+
+    private var progressView: some View {
+        ProgressView()
+            .controlSize(.large)
     }
 
     private func cityWeatherNavigationLink(for cityWeather: CityWeatherViewModel) -> some View {

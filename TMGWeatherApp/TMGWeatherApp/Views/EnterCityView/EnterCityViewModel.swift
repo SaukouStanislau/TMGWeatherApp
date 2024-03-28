@@ -14,12 +14,15 @@ final class EnterCityViewModel: ObservableObject {
         case noInternet
         case noCity
         case unknownError
+        case processing
     }
 
     private let weatherService: FetchWeatherInfoServiceInterface
-    private var cancellables: Set<AnyCancellable> = []
 
     @Published var status: EnterCityFetchingStatus?
+
+    private var enteredCity: String = ""
+    private var cancellables: Set<AnyCancellable> = []
 
     init(weatherService: OpenWeatherMapService) {
         self.weatherService = weatherService
@@ -29,6 +32,7 @@ final class EnterCityViewModel: ObservableObject {
 
     func didTriggerChangeCity(_ newCity: String) {
         cancelFetching()
+        enteredCity = newCity
         startFetchingWeatherInfo(for: newCity)
     }
 }
@@ -41,17 +45,23 @@ private extension EnterCityViewModel {
     }
 
     func startFetchingWeatherInfo(for city: String) {
-        weatherService.getWeatherInfoForCity(city)
-            .delay(for: .seconds(1), scheduler: DispatchQueue.global(qos: .userInitiated))
-            .receive(on: RunLoop.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                if case let .failure(error) = completion {
-                    self?.handleError(error)
-                }
-            }, receiveValue: { [weak self] weatherInfo in
-                self?.status = .fetched(cityWeather: CityWeatherViewModel(city: city, weatherInfo: weatherInfo))
-            })
-            .store(in: &cancellables)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [self] in
+            guard city == enteredCity else {
+                return
+            }
+
+            status = .processing
+            self.weatherService.getWeatherInfoForCity(city)
+                .receive(on: DispatchQueue.main)
+                .sink(receiveCompletion: { [weak self] completion in
+                    if case let .failure(error) = completion {
+                        self?.handleError(error)
+                    }
+                }, receiveValue: { [weak self] weatherInfo in
+                    self?.status = .fetched(cityWeather: CityWeatherViewModel(city: city, weatherInfo: weatherInfo))
+                })
+                .store(in: &self.cancellables)
+        }
     }
 
     func handleError(_ error: Error) {
