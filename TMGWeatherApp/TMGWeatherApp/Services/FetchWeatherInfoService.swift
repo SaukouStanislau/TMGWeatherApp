@@ -19,7 +19,7 @@ enum FetchWeatherInfoServiceError: Error {
     case unknown
 }
 
-final class OpenWeatherMapService: FetchWeatherInfoServiceInterface {
+final class OpenMapFetchWeatherInfoService: FetchWeatherInfoServiceInterface {
     private let baseURL = "https://api.openweathermap.org/data/2.5/weather"
     private let appIDQuerryParameter = ["appid": "91fcbc3ce738aa384ab12f50ccb1f780"]
 
@@ -72,7 +72,7 @@ final class OpenWeatherMapService: FetchWeatherInfoServiceInterface {
 
 // MARK: - Private API
 
-private extension OpenWeatherMapService {
+private extension OpenMapFetchWeatherInfoService {
     func getWeatherURLWithComponentsForCity(_ city: String) -> URL? {
         guard var urlComponents = URLComponents(string: baseURL) else {
             return nil

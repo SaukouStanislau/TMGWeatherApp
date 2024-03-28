@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EnterCityView: View {
-    @ObservedObject var model: EnterCityViewModel = EnterCityViewModel(weatherService: OpenWeatherMapService())
+    @ObservedObject var model: EnterCityViewModel = EnterCityViewModel(weatherService: OpenMapFetchWeatherInfoService())
     @State var cityName: String = ""
 
     var body: some View {

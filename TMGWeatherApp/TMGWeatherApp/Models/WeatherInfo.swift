@@ -23,10 +23,12 @@ extension WeatherInfo {
     struct WeatherStatus: Decodable {
         var status: String?
         var description: String?
+        var icon: String?
 
         enum CodingKeys: String, CodingKey {
             case status = "main"
             case description
+            case icon
         }
     }
 
@@ -52,7 +54,7 @@ extension WeatherInfo {
 extension WeatherInfo {
     static var previewWeatherInfo: WeatherInfo {
         WeatherInfo(
-            weather: [WeatherStatus(status: "Clear", description: "clear sky")],
+            weather: [WeatherStatus(status: "Clear", description: "clear sky", icon: "01d")],
             temperatureInfo: TemperatureInfo(temperature: 289.72)
         )
     }

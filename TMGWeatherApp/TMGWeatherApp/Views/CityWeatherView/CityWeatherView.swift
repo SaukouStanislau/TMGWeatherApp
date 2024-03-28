@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CityWeatherView: View {
+    static let weatherStatusImageSize: CGSize = CGSize(width: 200.0, height: 200.0)
     let cityWeather: CityWeatherViewModel
 
     var body: some View {
@@ -16,6 +18,7 @@ struct CityWeatherView: View {
             VStack {
                 cityName
                 temperature
+                weatherStatusImage
                 Spacer()
             }
         }
@@ -31,6 +34,16 @@ struct CityWeatherView: View {
         Text(cityWeather.formattedTemperatureInCelsius).font(.largeTitle).padding()
     }
 
+    @ViewBuilder
+    private var weatherStatusImage: some View {
+        if let iconImageURL = cityWeather.weatherStatusIconImageURL {
+            KFImage(iconImageURL)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: CityWeatherView.weatherStatusImageSize.height)
+        }
+    }
+
     private var gradientBackground: some View {
         LinearGradient(
             gradient: Gradient(colors: [Color.blue, Color.lightBlue]),
@@ -43,7 +56,8 @@ struct CityWeatherView: View {
 #Preview {
     let cityWeather = CityWeatherViewModel(
         city: "Warsaw",
-        weatherInfo: WeatherInfo.previewWeatherInfo
+        weatherInfo: WeatherInfo.previewWeatherInfo, 
+        weatherIconsService: OpenMapWeatherIconsService()
     )
     return CityWeatherView(cityWeather: cityWeather)
 }

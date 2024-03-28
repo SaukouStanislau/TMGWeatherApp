@@ -24,7 +24,7 @@ final class EnterCityViewModel: ObservableObject {
     private var enteredCity: String = ""
     private var cancellables: Set<AnyCancellable> = []
 
-    init(weatherService: OpenWeatherMapService) {
+    init(weatherService: OpenMapFetchWeatherInfoService) {
         self.weatherService = weatherService
     }
 
@@ -58,7 +58,11 @@ private extension EnterCityViewModel {
                         self?.handleError(error)
                     }
                 }, receiveValue: { [weak self] weatherInfo in
-                    self?.status = .fetched(cityWeather: CityWeatherViewModel(city: city, weatherInfo: weatherInfo))
+                    self?.status = .fetched(cityWeather: CityWeatherViewModel(
+                        city: city,
+                        weatherInfo: weatherInfo,
+                        weatherIconsService: OpenMapWeatherIconsService()
+                    ))
                 })
                 .store(in: &self.cancellables)
         }
