@@ -14,5 +14,5 @@ Some screenshots:
 
 <img src="https://github.com/SaukouStanislau/TMGWeatherApp/assets/22836375/d4da8ae6-ba29-44f8-9e1b-2d1173b1e562" height="300">
 <img src="https://github.com/SaukouStanislau/TMGWeatherApp/assets/22836375/dc024851-0682-440c-af65-8e3daa4d4f14" height="300">
-<img src="https://github.com/SaukouStanislau/TMGWeatherApp/assets/22836375/64fbdb50-876f-4a46-9494-93abd31d7fdd" height="300">
+<img src="https://github.com/SaukouStanislau/TMGWeatherApp/assets/22836375/52794081-990f-4c19-a735-f46cfa139746" height="300">
 <img src="https://github.com/SaukouStanislau/TMGWeatherApp/assets/22836375/6d1eb5c4-074a-4102-a66c-cd842543b61e" height="300">
