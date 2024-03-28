@@ -6,17 +6,29 @@
 //
 
 import Foundation
+import Combine
 
 final class CityWeatherViewModel: ObservableObject {
     let city: String
-    private let weatherInfo: WeatherInfo
+
+    private let weatherService: FetchWeatherInfoServiceInterface
     private let weatherIconsService: WeatherIconsService
 
-    @Published var temperatureUnit: TemperatureUnit = .celsius
+    private var cancellables: Set<AnyCancellable> = []
 
-    init(city: String, weatherInfo: WeatherInfo, weatherIconsService: WeatherIconsService) {
+    @Published private var weatherInfo: WeatherInfo
+    @Published var temperatureUnit: TemperatureUnit = .celsius
+    @Published var isRefreshing: Bool = false
+
+    init(
+        city: String,
+        weatherInfo: WeatherInfo,
+        weatherService: FetchWeatherInfoServiceInterface,
+        weatherIconsService: WeatherIconsService
+    ) {
         self.city = city
         self.weatherInfo = weatherInfo
+        self.weatherService = weatherService
         self.weatherIconsService = weatherIconsService
     }
 
@@ -38,6 +50,21 @@ final class CityWeatherViewModel: ObservableObject {
         }
 
         return URL(string: stringURL)
+    }
+
+    // MARK: - Intents
+
+    func didTriggerNeedToRefresh() {
+        isRefreshing = true
+        self.weatherService.getWeatherInfoForCity(city)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] _ in
+                self?.isRefreshing = false
+            }, receiveValue: { [weak self] weatherInfo in
+                self?.weatherInfo = weatherInfo
+                self?.isRefreshing = false
+            })
+            .store(in: &self.cancellables)
     }
 }
 

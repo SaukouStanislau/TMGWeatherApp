@@ -113,8 +113,8 @@
 		757307392BB475F600E47B62 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7573073F2BB476CF00E47B62 /* EnterCityView */,
 				7573073E2BB476C200E47B62 /* CityWeatherView */,
+				7573073F2BB476CF00E47B62 /* EnterCityView */,
 			);
 			path = Views;
 			sourceTree = "<group>";

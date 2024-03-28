@@ -11,6 +11,10 @@ import Kingfisher
 struct CityWeatherView: View {
     @ObservedObject var cityWeather: CityWeatherViewModel
 
+    @State var refreshImageOpacity: CGFloat = 0.0
+    @State var refreshImageScale: CGFloat = 1.0
+    @State var refreshImageRotation: CGFloat = 1.0
+
     var body: some View {
         ZStack {
             gradientBackground.ignoresSafeArea()
@@ -21,7 +25,8 @@ struct CityWeatherView: View {
                 Spacer()
                 temperatureUnitPicker
             }
-        }
+            refreshView
+        }.gesture(DragGesture().onChanged(onDragChanged).onEnded(onDragEnded))
             .toolbarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
     }
@@ -68,12 +73,53 @@ private extension CityWeatherView {
             endPoint: .bottom
         )
     }
+
+    @ViewBuilder
+    var refreshView: some View {
+        if cityWeather.isRefreshing {
+            progressView
+        } else {
+            refreshImage
+        }
+    }
+
+    var progressView: some View {
+        ProgressView()
+            .controlSize(.large)
+    }
+
+    var refreshImage: some View {
+        Image(systemName: "arrow.clockwise")
+            .opacity(refreshImageOpacity)
+            .rotationEffect(Angle(degrees: refreshImageRotation))
+            .scaleEffect(CGSize(width: refreshImageScale, height: refreshImageScale))
+    }
+
+    func onDragChanged(value: DragGesture.Value) {
+        if value.translation.height > 0 {
+            withAnimation {
+                refreshImageOpacity += 0.1
+                refreshImageScale += 0.1
+                refreshImageRotation += 1
+            }
+        }
+    }
+
+    func onDragEnded(value: DragGesture.Value) {
+        withAnimation {
+            refreshImageOpacity = 0.0
+            refreshImageScale = 1.0
+            refreshImageRotation = 0.0
+            cityWeather.didTriggerNeedToRefresh()
+        }
+    }
 }
 
 #Preview {
     let cityWeather = CityWeatherViewModel(
         city: "Warsaw",
         weatherInfo: WeatherInfo.previewWeatherInfo, 
+        weatherService: OpenMapFetchWeatherInfoService(), 
         weatherIconsService: OpenMapWeatherIconsService()
     )
     return CityWeatherView(cityWeather: cityWeather)

@@ -41,7 +41,8 @@ struct ShortCityWeatherView: View {
 #Preview {
     let cityWeather = CityWeatherViewModel(
         city: "Warsaw",
-        weatherInfo: WeatherInfo.previewWeatherInfo,
+        weatherInfo: WeatherInfo.previewWeatherInfo, 
+        weatherService: OpenMapFetchWeatherInfoService(),
         weatherIconsService: OpenMapWeatherIconsService()
     )
     return ShortCityWeatherView(cityWeather: cityWeather)
