@@ -28,7 +28,7 @@ struct ShortCityWeatherView: View {
     }
 
     private var temperature: some View {
-        Text(cityWeather.formattedTemperatureInCelsius).padding()
+        Text(cityWeather.formattedTemperature).padding()
     }
 
     private var backgroundView: some View {

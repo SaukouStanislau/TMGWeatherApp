@@ -7,10 +7,12 @@
 
 import Foundation
 
-struct CityWeatherViewModel {
+final class CityWeatherViewModel: ObservableObject {
     let city: String
     private let weatherInfo: WeatherInfo
     private let weatherIconsService: WeatherIconsService
+
+    @Published var temperatureUnit: TemperatureUnit = .celsius
 
     init(city: String, weatherInfo: WeatherInfo, weatherIconsService: WeatherIconsService) {
         self.city = city
@@ -18,13 +20,13 @@ struct CityWeatherViewModel {
         self.weatherIconsService = weatherIconsService
     }
 
-    var formattedTemperatureInCelsius: String {
-        guard let temperature = weatherInfo.temperatureInfo?.temperature else {
-            return ""
+    var formattedTemperature: String {
+        switch temperatureUnit {
+        case .celsius:
+            formattedTemperatureInCelsius
+        case .fahrenheit:
+            formattedTemperatureInFahrenheit
         }
-
-        let roundedTemperature = TemperatureConverter.convertKelvinToCelcius(kelvin: temperature).rounded(.toNearestOrAwayFromZero)
-        return String("\(Int(roundedTemperature))°C")
     }
 
     var weatherStatusIconImageURL: URL? {
@@ -36,5 +38,27 @@ struct CityWeatherViewModel {
         }
 
         return URL(string: stringURL)
+    }
+}
+
+// MARK: - Private
+
+private extension CityWeatherViewModel {
+    var formattedTemperatureInFahrenheit: String {
+        guard let temperature = weatherInfo.temperatureInfo?.temperature else {
+            return ""
+        }
+
+        let roundedTemperature = TemperatureConverter.convertKelvinToFahrenheit(kelvin: temperature).rounded(.toNearestOrAwayFromZero)
+        return String("\(Int(roundedTemperature))°F")
+    }
+
+    var formattedTemperatureInCelsius: String {
+        guard let temperature = weatherInfo.temperatureInfo?.temperature else {
+            return ""
+        }
+
+        let roundedTemperature = TemperatureConverter.convertKelvinToCelcius(kelvin: temperature).rounded(.toNearestOrAwayFromZero)
+        return String("\(Int(roundedTemperature))°C")
     }
 }

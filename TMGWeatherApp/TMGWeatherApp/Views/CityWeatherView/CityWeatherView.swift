@@ -9,8 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct CityWeatherView: View {
-    static let weatherStatusImageSize: CGSize = CGSize(width: 200.0, height: 200.0)
-    let cityWeather: CityWeatherViewModel
+    @ObservedObject var cityWeather: CityWeatherViewModel
 
     var body: some View {
         ZStack {
@@ -20,22 +19,31 @@ struct CityWeatherView: View {
                 temperature
                 weatherStatusImage
                 Spacer()
+                Picker("Select temperature unit", selection: $cityWeather.temperatureUnit) {
+                    ForEach(TemperatureUnit.allCases, id: \.self) {
+                        Text($0.rawValue)
+                    }
+                }.pickerStyle(.menu)
             }
         }
             .toolbarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
     }
+}
 
-    private var cityName: some View {
+private extension CityWeatherView {
+    static let weatherStatusImageSize: CGSize = CGSize(width: 200.0, height: 200.0)
+
+    var cityName: some View {
         Text(cityWeather.city).font(.title).padding()
     }
 
-    private var temperature: some View {
-        Text(cityWeather.formattedTemperatureInCelsius).font(.largeTitle).padding()
+    var temperature: some View {
+        Text(cityWeather.formattedTemperature).font(.largeTitle).padding()
     }
 
     @ViewBuilder
-    private var weatherStatusImage: some View {
+    var weatherStatusImage: some View {
         if let iconImageURL = cityWeather.weatherStatusIconImageURL {
             KFImage(iconImageURL)
                 .resizable()
@@ -44,7 +52,7 @@ struct CityWeatherView: View {
         }
     }
 
-    private var gradientBackground: some View {
+    var gradientBackground: some View {
         LinearGradient(
             gradient: Gradient(colors: [Color.blue, Color.lightBlue]),
             startPoint: .top,
