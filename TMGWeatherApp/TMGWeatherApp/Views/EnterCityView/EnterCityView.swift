@@ -47,11 +47,11 @@ private extension EnterCityView {
         if let status = model.status {
             switch status {
             case .noInternet:
-                noInternetMessage
+                errorView(errorText: "Can't load data due to no Internet Connection")
             case .noCity:
-                noCityMessage
+                errorView(errorText: "Can't find data, check if your city name is correct")
             case .unknownError:
-                somethingWentWrongMessage
+                errorView(errorText: "Something went wrong, please try again")
             case let .fetched(cityWeather):
                 cityWeatherNavigationLink(for: cityWeather)
             case .processing:
@@ -70,19 +70,14 @@ private extension EnterCityView {
         )
     }
 
-    var noInternetMessage: some View {
-        Text("Can't load data due to no Internet Connection")
-            .font(.body)
-    }
-
-    var noCityMessage: some View {
-        Text("Can't find data, check if your city name is correct")
-            .font(.body)
-    }
-
-    var somethingWentWrongMessage: some View {
-        Text("Something went wrong, please try again")
-            .font(.body)
+    func errorView(errorText: String) -> some View {
+        VStack {
+            Image(systemName: "exclamationmark.triangle")
+                .font(.largeTitle)
+            Text(errorText)
+                .font(.title)
+                .multilineTextAlignment(.center)
+        }
     }
 
     var progressView: some View {
