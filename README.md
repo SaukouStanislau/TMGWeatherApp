@@ -8,7 +8,7 @@ Implemented features:
 Fetching weather data from OpenWeatherMap by entered city. Displaying short information about temperature in founded city on the search page and more detailed information on the city page. 
 Error handling for cases when there is no internet connection or user entered invalid city name.
 Pull to refresh on city page.
-Posibility to see temperetaru in both Celsius and Fahrenheit.
+Posibility to see temperature in both Celsius and Fahrenheit.
 
 Some screenshots:
 
