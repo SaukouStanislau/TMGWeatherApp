@@ -20,7 +20,7 @@ struct EnterCityView: View {
                 enterCityTextField
             }
             .background {
-                gradientBackground
+                gradientBackground.ignoresSafeArea()
             }
             .navigationBarTitle("Weather", displayMode: .inline)
             .toolbarBackground(.visible, for: .navigationBar)
