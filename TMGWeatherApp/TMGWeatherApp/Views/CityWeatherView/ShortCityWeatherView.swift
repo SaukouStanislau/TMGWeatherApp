@@ -33,7 +33,7 @@ struct ShortCityWeatherView: View {
 
     private var backgroundView: some View {
         RoundedRectangle(cornerRadius: ShortCityWeatherView.backgroundViewCornerRadius)
-            .foregroundStyle(Color.gray)
+            .foregroundStyle(Material.regular)
             .opacity(ShortCityWeatherView.backgroundViewOpacity)
     }
 }
