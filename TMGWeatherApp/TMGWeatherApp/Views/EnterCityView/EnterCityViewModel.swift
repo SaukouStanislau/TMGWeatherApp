@@ -61,7 +61,6 @@ private extension EnterCityViewModel {
                 }, receiveValue: { [weak self] weatherInfo in
                     self?.weatherInfo = weatherInfo
                     self?.status = .fetched(cityWeather: CityWeatherViewModel(
-                        city: city,
                         weatherInfo: weatherInfo, 
                         weatherService: OpenMapFetchWeatherInfoService(),
                         weatherIconsService: OpenMapWeatherIconsService()

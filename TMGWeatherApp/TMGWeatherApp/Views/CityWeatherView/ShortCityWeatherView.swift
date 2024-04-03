@@ -17,7 +17,7 @@ struct ShortCityWeatherView: View {
             temperature
         }.background {
             backgroundView
-        }.font(.largeTitle).bold().padding()
+        }.font(.largeTitle).foregroundStyle(.white).bold().padding()
     }
 }
 
@@ -25,7 +25,7 @@ struct ShortCityWeatherView: View {
 
 private extension ShortCityWeatherView {
     var cityName: some View {
-        Text(cityWeather.city).padding()
+        Text(cityWeather.cityName).padding()
     }
 
     var temperature: some View {
@@ -34,7 +34,7 @@ private extension ShortCityWeatherView {
 
     var backgroundView: some View {
         RoundedRectangle(cornerRadius: ShortCityWeatherView.Constants.backgroundViewCornerRadius)
-            .foregroundStyle(Material.regular)
+            .foregroundStyle(Material.thin)
             .opacity(ShortCityWeatherView.Constants.backgroundViewOpacity)
     }
 }
@@ -51,7 +51,6 @@ private extension ShortCityWeatherView {
 
 #Preview {
     let cityWeather = CityWeatherViewModel(
-        city: "Warsaw",
         weatherInfo: WeatherInfo.previewWeatherInfo, 
         weatherService: OpenMapFetchWeatherInfoService(),
         weatherIconsService: OpenMapWeatherIconsService()

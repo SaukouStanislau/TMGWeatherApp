@@ -37,7 +37,7 @@ struct CityWeatherView: View {
 
 private extension CityWeatherView {
     var cityName: some View {
-        Text(cityWeather.city).font(.title).padding()
+        Text(cityWeather.cityName).font(.title).padding()
     }
 
     var temperature: some View {
@@ -144,7 +144,6 @@ private extension CityWeatherView {
 
 #Preview {
     let cityWeather = CityWeatherViewModel(
-        city: "Warsaw",
         weatherInfo: WeatherInfo.previewWeatherInfo, 
         weatherService: OpenMapFetchWeatherInfoService(), 
         weatherIconsService: OpenMapWeatherIconsService()

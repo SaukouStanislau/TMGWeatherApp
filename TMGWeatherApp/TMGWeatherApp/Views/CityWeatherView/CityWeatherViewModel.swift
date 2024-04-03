@@ -9,8 +9,6 @@ import Foundation
 import Combine
 
 final class CityWeatherViewModel: ObservableObject {
-    let city: String
-
     private let weatherService: FetchWeatherInfoServiceInterface
     private let weatherIconsService: WeatherIconsService
 
@@ -21,15 +19,17 @@ final class CityWeatherViewModel: ObservableObject {
     @Published var isRefreshing: Bool = false
 
     init(
-        city: String,
         weatherInfo: WeatherInfo,
         weatherService: FetchWeatherInfoServiceInterface,
         weatherIconsService: WeatherIconsService
     ) {
-        self.city = city
         self.weatherInfo = weatherInfo
         self.weatherService = weatherService
         self.weatherIconsService = weatherIconsService
+    }
+
+    var cityName: String {
+        weatherInfo.locationName ?? ""
     }
 
     var formattedTemperature: String {
@@ -64,7 +64,7 @@ final class CityWeatherViewModel: ObservableObject {
 
     func didTriggerNeedToRefresh() {
         isRefreshing = true
-        self.weatherService.getWeatherInfoForCity(city)
+        self.weatherService.getWeatherInfoForCity(cityName)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] _ in
                 self?.isRefreshing = false
