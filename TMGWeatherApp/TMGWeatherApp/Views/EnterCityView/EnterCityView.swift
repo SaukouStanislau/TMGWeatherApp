@@ -62,12 +62,9 @@ private extension EnterCityView {
 
     // In the future this could be changed to show gradient depending on weather in city (dark color for night and bad weather, light - for day and good)
 
+    @ViewBuilder
     var gradientBackground: some View {
-        LinearGradient(
-            gradient: Gradient(colors: [Color.blue, Color.lightBlue]),
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        TimeWeatherBasedView(model: TimeWeatherBasedViewModel(weatherInfo: model.weatherInfo))
     }
 
     func errorView(errorText: String) -> some View {

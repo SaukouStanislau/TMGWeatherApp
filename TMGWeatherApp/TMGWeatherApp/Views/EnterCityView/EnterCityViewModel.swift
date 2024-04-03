@@ -19,6 +19,7 @@ final class EnterCityViewModel: ObservableObject {
 
     private let weatherService: FetchWeatherInfoServiceInterface
 
+    var weatherInfo: WeatherInfo?
     @Published var status: EnterCityFetchingStatus?
 
     private var enteredCity: String = ""
@@ -58,6 +59,7 @@ private extension EnterCityViewModel {
                         self?.handleError(error)
                     }
                 }, receiveValue: { [weak self] weatherInfo in
+                    self?.weatherInfo = weatherInfo
                     self?.status = .fetched(cityWeather: CityWeatherViewModel(
                         city: city,
                         weatherInfo: weatherInfo, 
