@@ -40,30 +40,25 @@ struct TimeWeatherBasedViewModel {
         WeatherInfo.WeatherStatus.Status.thunderstorm: 0.4
     ]
 
-    var locationCurrentHour: Int {
-        guard let location = weatherInfo?.locationName else {
-            return Calendar.current.component(.hour, from: Date())
-        }
-
-        return getCurrentHourInLocation(location: location) ?? Calendar.current.component(.hour, from: Date())
+    var currentHour: Int {
+        debugPrint(currentHourInLocation ?? Calendar.current.component(.hour, from: Date()))
+        return currentHourInLocation ?? Calendar.current.component(.hour, from: Date())
     }
 
-    func getCurrentHourInLocation(location: String) -> Int? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = TimeZone(identifier: location)
-        dateFormatter.dateFormat = "HH"
-        
-        let currentTime = Date()
-        let hourString = dateFormatter.string(from: currentTime)
-        
-        return Int(hourString)
+    var currentHourInLocation: Int? {
+        guard let locationName = weatherInfo?.locationName else {
+            return nil
+        }
+
+        return TimeConverter.getCurrentHoursInLocation(locationName) ?? nil
     }
 
     var brightnessMultiplier: CGFloat {
-        let interval = hoursMultipliersDictionary.keys.first { $0.contains(locationCurrentHour) } ?? (0..<0)
+        let interval = hoursMultipliersDictionary.keys.first { $0.contains(currentHour) } ?? (0..<0)
         let timeMultiplier = hoursMultipliersDictionary[interval] ?? defaultTimeMultiplier
         let weatherMultiplier = weatherMultipliersDictionary[weatherInfo?.weather?.first?.status ?? .clear] ?? defaultWeatherMultiplier
 
+        debugPrint(timeMultiplier)
         return timeMultiplier * 0.9 * weatherMultiplier
     }
 
