@@ -14,7 +14,7 @@ final class CityWeatherViewModel: ObservableObject {
 
     private var cancellables: Set<AnyCancellable> = []
 
-    @Published private var weatherInfo: WeatherInfo
+    @Published var weatherInfo: WeatherInfo
     @Published var temperatureUnit: TemperatureUnit = .celsius
     @Published var isRefreshing: Bool = false
 

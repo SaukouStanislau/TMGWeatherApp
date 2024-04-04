@@ -28,6 +28,7 @@ struct CityWeatherView: View {
             }
             refreshView
         }.gesture(DragGesture().onChanged(onDragChanged).onEnded(onDragEnded))
+            .foregroundStyle(.white)
             .toolbarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
     }
@@ -82,11 +83,7 @@ private extension CityWeatherView {
         }    }
 
     var gradientBackground: some View {
-        LinearGradient(
-            gradient: Gradient(colors: [Color.blue, Color.lightBlue]),
-            startPoint: .top,
-            endPoint: .bottom
-        )
+        TimeWeatherBasedView(model: TimeWeatherBasedViewModel(weatherInfo: cityWeather.weatherInfo))
     }
 
     @ViewBuilder
