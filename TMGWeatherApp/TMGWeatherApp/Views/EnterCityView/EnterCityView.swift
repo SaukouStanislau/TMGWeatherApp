@@ -10,6 +10,7 @@ import SwiftUI
 struct EnterCityView: View {
     @ObservedObject var model: EnterCityViewModel
     @State var cityName: String = ""
+    @State var needToShowSettings: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -24,9 +25,17 @@ struct EnterCityView: View {
             }
             .navigationBarTitle("Weather", displayMode: .inline)
             .toolbarBackground(.visible, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    settingsButton
+                }
+            }
             .onChange(of: cityName) { _, newValue in
                 model.didTriggerChangeCity(newValue)
             }
+        }
+        .sheet(isPresented: $needToShowSettings) {
+            SettingsSheetView()
         }
     }
 }
@@ -80,6 +89,14 @@ private extension EnterCityView {
     var progressView: some View {
         ProgressView()
             .controlSize(.large)
+    }
+
+    var settingsButton: some View {
+        Button(action: {
+            needToShowSettings = true
+        }, label: {
+            Image(systemName: "gearshape")
+        })
     }
 
     func cityWeatherNavigationLink(for cityWeather: CityWeatherViewModel) -> some View {
