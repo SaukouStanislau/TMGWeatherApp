@@ -31,6 +31,15 @@ struct CityWeatherView: View {
             .foregroundStyle(.white)
             .toolbarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        
+                    }, label: {
+                        Image(systemName: "star")
+                    })
+                }
+            }
     }
 }
 
