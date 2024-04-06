@@ -10,6 +10,9 @@ import SwiftUI
 struct ShortCityWeatherView: View {
     let cityWeather: CityWeatherViewModel
 
+    // This State added to refresh view on appear in case there were changes of how to show properties
+    @State private var refresh: Bool = false
+
     var body: some View {
         HStack {
             cityName
@@ -17,7 +20,14 @@ struct ShortCityWeatherView: View {
             temperature
         }.background {
             backgroundView
-        }.font(.largeTitle).foregroundStyle(.white).bold().padding()
+        }.onAppear {
+            refresh.toggle()
+        }
+        .background(Color.clear.disabled(refresh))
+        .font(.largeTitle)
+        .foregroundStyle(.white)
+        .bold()
+        .padding()
     }
 }
 
@@ -53,7 +63,8 @@ private extension ShortCityWeatherView {
     let cityWeather = CityWeatherViewModel(
         weatherInfo: WeatherInfo.previewWeatherInfo, 
         weatherService: OpenMapFetchWeatherInfoService(),
-        weatherIconsService: OpenMapWeatherIconsService()
+        weatherIconsService: OpenMapWeatherIconsService(),
+        settingsStorage: SettingsStorage()
     )
     return ShortCityWeatherView(cityWeather: cityWeather)
 }

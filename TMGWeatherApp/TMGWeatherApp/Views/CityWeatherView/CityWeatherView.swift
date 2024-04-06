@@ -24,7 +24,6 @@ struct CityWeatherView: View {
                 weatherStatusImage
                 sunriseSunsetStatus
                 Spacer()
-                temperatureUnitPicker
             }
             refreshView
         }.gesture(DragGesture().onChanged(onDragChanged).onEnded(onDragEnded))
@@ -77,19 +76,6 @@ private extension CityWeatherView {
             }
         }.padding()
     }
-
-    var temperatureUnitPicker: some View {
-        Menu {
-            Picker("Select temperature unit", selection: $cityWeather.temperatureUnit) {
-                ForEach(TemperatureUnit.allCases, id: \.self) {
-                    Text($0.rawValue)
-                }
-            }
-        } label: {
-            Text("\(cityWeather.temperatureUnit.rawValue) ⇳")
-                .foregroundStyle(.red)
-                .font(.largeTitle)
-        }    }
 
     var gradientBackground: some View {
         TimeWeatherBasedView(model: TimeWeatherBasedViewModel(weatherInfo: cityWeather.weatherInfo))
@@ -152,7 +138,8 @@ private extension CityWeatherView {
     let cityWeather = CityWeatherViewModel(
         weatherInfo: WeatherInfo.previewWeatherInfo, 
         weatherService: OpenMapFetchWeatherInfoService(), 
-        weatherIconsService: OpenMapWeatherIconsService()
+        weatherIconsService: OpenMapWeatherIconsService(),
+        settingsStorage: SettingsStorage()
     )
     return CityWeatherView(cityWeather: cityWeather)
 }

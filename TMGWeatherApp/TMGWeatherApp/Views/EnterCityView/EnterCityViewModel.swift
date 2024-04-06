@@ -63,7 +63,8 @@ private extension EnterCityViewModel {
                     self?.status = .fetched(cityWeather: CityWeatherViewModel(
                         weatherInfo: weatherInfo, 
                         weatherService: OpenMapFetchWeatherInfoService(),
-                        weatherIconsService: OpenMapWeatherIconsService()
+                        weatherIconsService: OpenMapWeatherIconsService(),
+                        settingsStorage: SettingsStorage()
                     ))
                 })
                 .store(in: &self.cancellables)

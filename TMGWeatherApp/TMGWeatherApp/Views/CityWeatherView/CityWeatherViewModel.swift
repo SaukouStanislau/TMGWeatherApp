@@ -11,21 +11,23 @@ import Combine
 final class CityWeatherViewModel: ObservableObject {
     private let weatherService: FetchWeatherInfoServiceInterface
     private let weatherIconsService: WeatherIconsService
+    private let settingsStorage: SettingsStorageInterface
 
     private var cancellables: Set<AnyCancellable> = []
 
     @Published var weatherInfo: WeatherInfo
-    @Published var temperatureUnit: TemperatureUnit = .celsius
     @Published var isRefreshing: Bool = false
 
     init(
         weatherInfo: WeatherInfo,
         weatherService: FetchWeatherInfoServiceInterface,
-        weatherIconsService: WeatherIconsService
+        weatherIconsService: WeatherIconsService,
+        settingsStorage: SettingsStorageInterface
     ) {
         self.weatherInfo = weatherInfo
         self.weatherService = weatherService
         self.weatherIconsService = weatherIconsService
+        self.settingsStorage = settingsStorage
     }
 
     var cityName: String {
@@ -33,7 +35,7 @@ final class CityWeatherViewModel: ObservableObject {
     }
 
     var formattedTemperature: String {
-        switch temperatureUnit {
+        switch settingsStorage.preferedTemperature {
         case .celsius:
             formattedTemperatureInCelsius
         case .fahrenheit:
@@ -85,7 +87,7 @@ private extension CityWeatherViewModel {
         }
 
         let roundedTemperature = TemperatureConverter.convertKelvinToFahrenheit(kelvin: temperature).rounded(.toNearestOrAwayFromZero)
-        return String("\(Int(roundedTemperature))°F")
+        return String("\(Int(roundedTemperature))\(TemperatureUnit.fahrenheit.shortName)")
     }
 
     var formattedTemperatureInCelsius: String {
@@ -94,6 +96,6 @@ private extension CityWeatherViewModel {
         }
 
         let roundedTemperature = TemperatureConverter.convertKelvinToCelcius(kelvin: temperature).rounded(.toNearestOrAwayFromZero)
-        return String("\(Int(roundedTemperature))°C")
+        return String("\(Int(roundedTemperature))\(TemperatureUnit.celsius.shortName)")
     }
 }

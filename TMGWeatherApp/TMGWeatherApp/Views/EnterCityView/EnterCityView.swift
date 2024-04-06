@@ -10,7 +10,6 @@ import SwiftUI
 struct EnterCityView: View {
     @ObservedObject var model: EnterCityViewModel
     @State var cityName: String = ""
-    @State var needToShowSettings: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -27,15 +26,12 @@ struct EnterCityView: View {
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    settingsButton
+                    settingsLink
                 }
             }
             .onChange(of: cityName) { _, newValue in
                 model.didTriggerChangeCity(newValue)
             }
-        }
-        .sheet(isPresented: $needToShowSettings) {
-            SettingsSheetView()
         }
     }
 }
@@ -91,12 +87,10 @@ private extension EnterCityView {
             .controlSize(.large)
     }
 
-    var settingsButton: some View {
-        Button(action: {
-            needToShowSettings = true
-        }, label: {
+    var settingsLink: some View {
+        NavigationLink(destination: SettingsView(model: SettingsViewModel(settingsStorage: SettingsStorage()))) {
             Image(systemName: "gearshape")
-        })
+        }
     }
 
     func cityWeatherNavigationLink(for cityWeather: CityWeatherViewModel) -> some View {
