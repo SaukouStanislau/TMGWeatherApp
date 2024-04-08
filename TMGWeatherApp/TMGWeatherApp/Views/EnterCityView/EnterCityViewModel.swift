@@ -64,7 +64,8 @@ private extension EnterCityViewModel {
                         weatherInfo: weatherInfo, 
                         weatherService: OpenMapFetchWeatherInfoService(),
                         weatherIconsService: OpenMapWeatherIconsService(),
-                        settingsStorage: SettingsStorage()
+                        settingsStorage: SettingsStorage(),
+                        favouritesService: FetchFavouritesService(favouriteStorage: FavouriteStorage())
                     ))
                 })
                 .store(in: &self.cancellables)

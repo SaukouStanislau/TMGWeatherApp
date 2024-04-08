@@ -32,10 +32,8 @@ struct CityWeatherView: View {
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        
-                    }, label: {
-                        Image(systemName: "star")
+                    FavouriteButtonView(state: $cityWeather.favouriteProcessingState, action: {
+                        cityWeather.didTriggerFavouriteButton()
                     })
                 }
             }
@@ -139,7 +137,8 @@ private extension CityWeatherView {
         weatherInfo: WeatherInfo.previewWeatherInfo, 
         weatherService: OpenMapFetchWeatherInfoService(), 
         weatherIconsService: OpenMapWeatherIconsService(),
-        settingsStorage: SettingsStorage()
+        settingsStorage: SettingsStorage(), 
+        favouritesService: FetchFavouritesService(favouriteStorage: FavouriteStorage())
     )
     return CityWeatherView(cityWeather: cityWeather)
 }

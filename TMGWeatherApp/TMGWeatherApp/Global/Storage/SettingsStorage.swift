@@ -11,7 +11,7 @@ enum SettingsOptions: String {
 
 protocol SettingsStorageInterface {
     var preferedTemperature: TemperatureUnit { get }
-    mutating func set(preferedTemperature: TemperatureUnit)
+    func set(preferedTemperature: TemperatureUnit)
 }
 
 final class SettingsStorage {

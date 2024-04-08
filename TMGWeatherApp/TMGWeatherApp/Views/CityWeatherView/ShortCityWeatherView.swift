@@ -64,7 +64,8 @@ private extension ShortCityWeatherView {
         weatherInfo: WeatherInfo.previewWeatherInfo, 
         weatherService: OpenMapFetchWeatherInfoService(),
         weatherIconsService: OpenMapWeatherIconsService(),
-        settingsStorage: SettingsStorage()
+        settingsStorage: SettingsStorage(),
+        favouritesService: FetchFavouritesService(favouriteStorage: FavouriteStorage())
     )
     return ShortCityWeatherView(cityWeather: cityWeather)
 }

@@ -12,22 +12,27 @@ final class CityWeatherViewModel: ObservableObject {
     private let weatherService: FetchWeatherInfoServiceInterface
     private let weatherIconsService: WeatherIconsService
     private let settingsStorage: SettingsStorageInterface
+    private let favouritesService: FetchFavouritesServiceInterface
 
     private var cancellables: Set<AnyCancellable> = []
 
     @Published var weatherInfo: WeatherInfo
     @Published var isRefreshing: Bool = false
+    @Published var favouriteProcessingState: FavouriteProcessingState = .favourite(false)
 
     init(
         weatherInfo: WeatherInfo,
         weatherService: FetchWeatherInfoServiceInterface,
         weatherIconsService: WeatherIconsService,
-        settingsStorage: SettingsStorageInterface
+        settingsStorage: SettingsStorageInterface,
+        favouritesService: FetchFavouritesServiceInterface
     ) {
         self.weatherInfo = weatherInfo
         self.weatherService = weatherService
         self.weatherIconsService = weatherIconsService
         self.settingsStorage = settingsStorage
+        self.favouritesService = favouritesService
+        setup()
     }
 
     var cityName: String {
@@ -76,11 +81,58 @@ final class CityWeatherViewModel: ObservableObject {
             })
             .store(in: &self.cancellables)
     }
+
+    func didTriggerFavouriteButton() {
+        switch favouriteProcessingState {
+        case .processing:
+            break
+        case let .favourite(favourite):
+            if favourite {
+                processRemoveFromFavourites()
+            } else {
+                processAddToFavourites()
+            }
+        }
+    }
 }
 
 // MARK: - Private
 
 private extension CityWeatherViewModel {
+    func setup() {
+        favouriteProcessingState = .processing
+        // delay added to demonstrate work
+        favouritesService.checkIfFavourite(cityName: cityName)
+            .delay(for: 2.0, scheduler: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in
+            }, receiveValue: { [weak self] favourite in
+                self?.favouriteProcessingState = .favourite(favourite)
+            })
+            .store(in: &self.cancellables)
+    }
+
+    func processRemoveFromFavourites() {
+        favouriteProcessingState = .processing
+        favouritesService.removeFromFavourites(cityName: cityName)
+            .delay(for: 2.0, scheduler: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in
+            }, receiveValue: { [weak self] in
+                self?.favouriteProcessingState = .favourite(false)
+            })
+            .store(in: &self.cancellables)
+    }
+
+    func processAddToFavourites() {
+        favouriteProcessingState = .processing
+        favouritesService.addToFavourites(cityName: cityName)
+            .delay(for: 2.0, scheduler: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in
+            }, receiveValue: { [weak self] in
+                self?.favouriteProcessingState = .favourite(true)
+            })
+            .store(in: &self.cancellables)
+    }
+
     var formattedTemperatureInFahrenheit: String {
         guard let temperature = weatherInfo.temperatureInfo?.temperature else {
             return ""
