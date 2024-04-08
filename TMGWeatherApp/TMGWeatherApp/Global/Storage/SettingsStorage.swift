@@ -14,7 +14,7 @@ protocol SettingsStorageInterface {
     mutating func set(preferedTemperature: TemperatureUnit)
 }
 
-struct SettingsStorage {
+final class SettingsStorage {
     private enum SettingsKeys: String {
         case temperature
     }
@@ -30,7 +30,7 @@ extension SettingsStorage: SettingsStorageInterface {
         temperature
     }
 
-    mutating func set(preferedTemperature: TemperatureUnit) {
+    func set(preferedTemperature: TemperatureUnit) {
         temperature = preferedTemperature
     }
 }
