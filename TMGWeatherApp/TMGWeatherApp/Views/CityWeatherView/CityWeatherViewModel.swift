@@ -20,6 +20,8 @@ final class CityWeatherViewModel: ObservableObject {
     @Published var isRefreshing: Bool = false
     @Published var favouriteProcessingState: FavouriteProcessingState = .favourite(false)
 
+    private let operationDelay: DispatchQueue.SchedulerTimeType.Stride = 1.0
+
     init(
         weatherInfo: WeatherInfo,
         weatherService: FetchWeatherInfoServiceInterface,
@@ -103,7 +105,7 @@ private extension CityWeatherViewModel {
         favouriteProcessingState = .processing
         // delay added to demonstrate work
         favouritesService.checkIfFavourite(cityName: cityName)
-            .delay(for: 2.0, scheduler: DispatchQueue.main)
+            .delay(for: operationDelay, scheduler: DispatchQueue.main)
             .sink(receiveCompletion: { _ in
             }, receiveValue: { [weak self] favourite in
                 self?.favouriteProcessingState = .favourite(favourite)
@@ -114,7 +116,7 @@ private extension CityWeatherViewModel {
     func processRemoveFromFavourites() {
         favouriteProcessingState = .processing
         favouritesService.removeFromFavourites(cityName: cityName)
-            .delay(for: 2.0, scheduler: DispatchQueue.main)
+            .delay(for: operationDelay, scheduler: DispatchQueue.main)
             .sink(receiveCompletion: { _ in
             }, receiveValue: { [weak self] in
                 self?.favouriteProcessingState = .favourite(false)
@@ -125,7 +127,7 @@ private extension CityWeatherViewModel {
     func processAddToFavourites() {
         favouriteProcessingState = .processing
         favouritesService.addToFavourites(cityName: cityName)
-            .delay(for: 2.0, scheduler: DispatchQueue.main)
+            .delay(for: operationDelay, scheduler: DispatchQueue.main)
             .sink(receiveCompletion: { _ in
             }, receiveValue: { [weak self] in
                 self?.favouriteProcessingState = .favourite(true)

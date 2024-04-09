@@ -41,6 +41,7 @@ private extension FavouriteCitiesViewModel {
     }
 
     func fetchWeatherFor(cities: [String]) {
+        citiesWeather = [:]
         cities.forEach { city in
             fetchWeatherService.getWeatherInfoForCity(city)
                 .receive(on: DispatchQueue.main)

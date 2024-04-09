@@ -43,7 +43,8 @@ private extension ShortCityWeatherView {
     }
 
     var backgroundView: some View {
-        RoundedRectangle(cornerRadius: ShortCityWeatherView.Constants.backgroundViewCornerRadius)
+        RoundedRectangle(cornerRadius: ShortCityWeatherView.Constants.backgroundViewCornerRadius
+        )
             .foregroundStyle(Material.thin)
             .opacity(ShortCityWeatherView.Constants.backgroundViewOpacity)
     }
