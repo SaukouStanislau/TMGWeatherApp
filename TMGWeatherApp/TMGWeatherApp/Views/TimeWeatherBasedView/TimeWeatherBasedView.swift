@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct TimeWeatherBasedView: View {
-    let model: TimeWeatherBasedViewModel
+    let viewModel: TimeWeatherBasedViewModel
 
     var body: some View {
         LinearGradient(
-            gradient: Gradient(colors: [model.topColor, model.bottomColor]),
+            gradient: Gradient(colors: [viewModel.topColor, viewModel.bottomColor]),
             startPoint: .top,
             endPoint: .bottom
         )
@@ -20,5 +20,5 @@ struct TimeWeatherBasedView: View {
 }
 
 #Preview {
-    TimeWeatherBasedView(model: TimeWeatherBasedViewModel(weatherInfo: WeatherInfo()))
+    TimeWeatherBasedView(viewModel: TimeWeatherBasedViewModel(weatherInfo: WeatherInfo()))
 }

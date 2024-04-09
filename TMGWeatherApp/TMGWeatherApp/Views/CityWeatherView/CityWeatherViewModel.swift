@@ -32,7 +32,7 @@ final class CityWeatherViewModel: ObservableObject {
         self.weatherIconsService = weatherIconsService
         self.settingsStorage = settingsStorage
         self.favouritesService = favouritesService
-        setup()
+        checkFavourite()
     }
 
     var cityName: String {
@@ -99,7 +99,7 @@ final class CityWeatherViewModel: ObservableObject {
 // MARK: - Private
 
 private extension CityWeatherViewModel {
-    func setup() {
+    func checkFavourite() {
         favouriteProcessingState = .processing
         // delay added to demonstrate work
         favouritesService.checkIfFavourite(cityName: cityName)

@@ -15,12 +15,13 @@ final class EnterCityViewModel: ObservableObject {
         case noCity
         case unknownError
         case processing
+        case empty
     }
 
     private let weatherService: FetchWeatherInfoServiceInterface
 
     var weatherInfo: WeatherInfo?
-    @Published var status: EnterCityFetchingStatus?
+    @Published var status: EnterCityFetchingStatus = .empty
 
     private var enteredCity: String = ""
     private var cancellables: Set<AnyCancellable> = []
@@ -46,6 +47,11 @@ private extension EnterCityViewModel {
     }
 
     func startFetchingWeatherInfo(for city: String) {
+        guard !city.isEmpty else {
+            status = .empty
+            return
+        }
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [self] in
             guard city == enteredCity else {
                 return

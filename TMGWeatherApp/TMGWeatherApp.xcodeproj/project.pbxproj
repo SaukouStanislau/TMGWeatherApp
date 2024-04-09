@@ -33,6 +33,8 @@
 		7573078A2BC42B7000E47B62 /* FetchFavouritesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757307892BC42B7000E47B62 /* FetchFavouritesService.swift */; };
 		7573078C2BC42C1000E47B62 /* FavouriteStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7573078B2BC42C1000E47B62 /* FavouriteStorage.swift */; };
 		7573078F2BC491BE00E47B62 /* FavouriteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7573078E2BC491BE00E47B62 /* FavouriteButtonView.swift */; };
+		757307942BC5596100E47B62 /* FavouriteCitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757307932BC5596100E47B62 /* FavouriteCitiesView.swift */; };
+		757307962BC5599000E47B62 /* FavouriteCitiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757307952BC5599000E47B62 /* FavouriteCitiesViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		757307892BC42B7000E47B62 /* FetchFavouritesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchFavouritesService.swift; sourceTree = "<group>"; };
 		7573078B2BC42C1000E47B62 /* FavouriteStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteStorage.swift; sourceTree = "<group>"; };
 		7573078E2BC491BE00E47B62 /* FavouriteButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteButtonView.swift; sourceTree = "<group>"; };
+		757307932BC5596100E47B62 /* FavouriteCitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteCitiesView.swift; sourceTree = "<group>"; };
+		757307952BC5599000E47B62 /* FavouriteCitiesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteCitiesViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				7573078D2BC491A300E47B62 /* FavouriteButton */,
+				757307922BC5594800E47B62 /* FavouriteCitiesView */,
 				757307862BC0584600E47B62 /* GenericPickerView */,
 				757307812BC01E8D00E47B62 /* ChooserPickerStyleView */,
 				7573073E2BB476C200E47B62 /* CityWeatherView */,
@@ -263,6 +268,15 @@
 			path = FavouriteButton;
 			sourceTree = "<group>";
 		};
+		757307922BC5594800E47B62 /* FavouriteCitiesView */ = {
+			isa = PBXGroup;
+			children = (
+				757307932BC5596100E47B62 /* FavouriteCitiesView.swift */,
+				757307952BC5599000E47B62 /* FavouriteCitiesViewModel.swift */,
+			);
+			path = FavouriteCitiesView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -369,6 +383,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				757307942BC5596100E47B62 /* FavouriteCitiesView.swift in Sources */,
 				757307332BB42BDC00E47B62 /* EnterCityViewModel.swift in Sources */,
 				7573073B2BB4760200E47B62 /* ShortCityWeatherView.swift in Sources */,
 				7573078C2BC42C1000E47B62 /* FavouriteStorage.swift in Sources */,
@@ -379,6 +394,7 @@
 				7573072F2BB42A4300E47B62 /* EnterCityView.swift in Sources */,
 				7573078A2BC42B7000E47B62 /* FetchFavouritesService.swift in Sources */,
 				757307882BC0585900E47B62 /* GenericPickerView.swift in Sources */,
+				757307962BC5599000E47B62 /* FavouriteCitiesViewModel.swift in Sources */,
 				757307722BB5D2D200E47B62 /* DateFormatter.swift in Sources */,
 				7573071D2BB4290800E47B62 /* TMGWeatherAppApp.swift in Sources */,
 				757307852BC0403C00E47B62 /* UDStorage.swift in Sources */,

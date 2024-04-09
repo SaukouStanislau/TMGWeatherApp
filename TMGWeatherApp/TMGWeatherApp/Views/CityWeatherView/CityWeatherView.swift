@@ -76,7 +76,7 @@ private extension CityWeatherView {
     }
 
     var gradientBackground: some View {
-        TimeWeatherBasedView(model: TimeWeatherBasedViewModel(weatherInfo: cityWeather.weatherInfo))
+        TimeWeatherBasedView(viewModel: TimeWeatherBasedViewModel(weatherInfo: cityWeather.weatherInfo))
     }
 
     @ViewBuilder

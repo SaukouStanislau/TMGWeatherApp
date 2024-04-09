@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EnterCityView: View {
-    @ObservedObject var model: EnterCityViewModel
+    @ObservedObject var viewModel: EnterCityViewModel
     @State var cityName: String = ""
 
     var body: some View {
@@ -30,7 +30,7 @@ struct EnterCityView: View {
                 }
             }
             .onChange(of: cityName) { _, newValue in
-                model.didTriggerChangeCity(newValue)
+                viewModel.didTriggerChangeCity(newValue)
             }
         }
     }
@@ -49,27 +49,34 @@ private extension EnterCityView {
 
     @ViewBuilder
     var resultView: some View {
-        if let status = model.status {
-            switch status {
-            case .noInternet:
-                errorView(errorText: "Can't load data due to no Internet Connection")
-            case .noCity:
-                errorView(errorText: "Can't find data, check if your city name is correct")
-            case .unknownError:
-                errorView(errorText: "Something went wrong, please try again")
-            case let .fetched(cityWeather):
-                cityWeatherNavigationLink(for: cityWeather)
-            case .processing:
-                progressView
-            }
+        switch viewModel.status {
+        case .noInternet:
+            errorView(errorText: "Can't load data due to no Internet Connection")
+        case .noCity:
+            errorView(errorText: "Can't find data, check if your city name is correct")
+        case .unknownError:
+            errorView(errorText: "Something went wrong, please try again")
+        case let .fetched(cityWeather):
+            cityWeatherNavigationLink(for: cityWeather)
+        case .processing:
+            progressView
+        case .empty:
+            favouritesView
         }
+    }
+
+    var favouritesView: some View {
+        FavouriteCitiesView(viewModel: FavouriteCitiesViewModel(
+            fetchFavouritesService: FetchFavouritesService(favouriteStorage: FavouriteStorage()),
+            fetchWeatherService: OpenMapFetchWeatherInfoService()
+        ))
     }
 
     // In the future this could be changed to show gradient depending on weather in city (dark color for night and bad weather, light - for day and good)
 
     @ViewBuilder
     var gradientBackground: some View {
-        TimeWeatherBasedView(model: TimeWeatherBasedViewModel(weatherInfo: model.weatherInfo))
+        TimeWeatherBasedView(viewModel: TimeWeatherBasedViewModel(weatherInfo: viewModel.weatherInfo))
     }
 
     func errorView(errorText: String) -> some View {
@@ -95,13 +102,12 @@ private extension EnterCityView {
 
     func cityWeatherNavigationLink(for cityWeather: CityWeatherViewModel) -> some View {
         NavigationLink(destination: CityWeatherView(cityWeather: cityWeather)) {
-            VStack {
-                ShortCityWeatherView(cityWeather: cityWeather)
-            }
+            ShortCityWeatherView(cityWeather: cityWeather)
         }
     }
 }
 
 #Preview {
-    EnterCityView(model: EnterCityViewModel(weatherService: OpenMapFetchWeatherInfoService()))
+    let viewModel = EnterCityViewModel(weatherService: OpenMapFetchWeatherInfoService())
+    return EnterCityView(viewModel: viewModel)
 }
