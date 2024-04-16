@@ -10,7 +10,7 @@ import Combine
 
 final class CityWeatherViewModel: ObservableObject {
     private let weatherService: FetchWeatherInfoServiceInterface
-    private let weatherIconsService: WeatherIconsService
+    private let weatherIconsService: WeatherIconsServiceInterface
     private let settingsStorage: SettingsStorageInterface
 
     private var cancellables: Set<AnyCancellable> = []
@@ -21,7 +21,7 @@ final class CityWeatherViewModel: ObservableObject {
     init(
         weatherInfo: WeatherInfo,
         weatherService: FetchWeatherInfoServiceInterface,
-        weatherIconsService: WeatherIconsService,
+        weatherIconsService: WeatherIconsServiceInterface,
         settingsStorage: SettingsStorageInterface
     ) {
         self.weatherInfo = weatherInfo

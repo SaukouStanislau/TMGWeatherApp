@@ -61,11 +61,5 @@ private extension ShortCityWeatherView {
 }
 
 #Preview {
-    let cityWeather = CityWeatherViewModel(
-        weatherInfo: WeatherInfo.previewWeatherInfo, 
-        weatherService: OpenMapFetchWeatherInfoService(),
-        weatherIconsService: OpenMapWeatherIconsService(),
-        settingsStorage: SettingsStorage()
-    )
-    return ShortCityWeatherView(cityWeather: cityWeather)
+    CityWeatherViewBuilder.shortCityWeatherView(for: WeatherInfo.previewWeatherInfo)
 }

@@ -66,17 +66,14 @@ private extension EnterCityView {
     }
 
     var favouritesView: some View {
-        FavouriteCitiesView(viewModel: FavouriteCitiesViewModel(
-            fetchFavouritesService: FetchFavouritesService(favouriteStorage: FavouriteStorage()),
-            fetchWeatherService: OpenMapFetchWeatherInfoService()
-        ))
+        FavouriteCitiesViewBuilder.favouriteCitiesView
     }
 
     // In the future this could be changed to show gradient depending on weather in city (dark color for night and bad weather, light - for day and good)
 
     @ViewBuilder
     var gradientBackground: some View {
-        TimeWeatherBasedView(viewModel: TimeWeatherBasedViewModel(weatherInfo: viewModel.weatherInfo))
+        TimeWeatherBasedViewBuilder.timeWeatherBasedView(for: viewModel.weatherInfo)
     }
 
     func errorView(errorText: String) -> some View {
@@ -95,7 +92,7 @@ private extension EnterCityView {
     }
 
     var settingsLink: some View {
-        NavigationLink(destination: SettingsView(model: SettingsViewModel(settingsStorage: SettingsStorage()))) {
+        NavigationLink(destination: SettingsViewBuilder.settingsView) {
             Image(systemName: "gearshape")
         }
     }
@@ -108,6 +105,5 @@ private extension EnterCityView {
 }
 
 #Preview {
-    let viewModel = EnterCityViewModel(weatherService: OpenMapFetchWeatherInfoService())
-    return EnterCityView(viewModel: viewModel)
+    EnterCityViewBuilder.enterCityView
 }

@@ -20,5 +20,5 @@ struct TimeWeatherBasedView: View {
 }
 
 #Preview {
-    TimeWeatherBasedView(viewModel: TimeWeatherBasedViewModel(weatherInfo: WeatherInfo()))
+    TimeWeatherBasedViewBuilder.timeWeatherBasedView(for: WeatherInfo())
 }

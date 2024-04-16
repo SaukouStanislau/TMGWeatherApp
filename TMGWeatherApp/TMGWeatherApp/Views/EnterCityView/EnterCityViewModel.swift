@@ -26,7 +26,7 @@ final class EnterCityViewModel: ObservableObject {
     private var enteredCity: String = ""
     private var cancellables: Set<AnyCancellable> = []
 
-    init(weatherService: OpenMapFetchWeatherInfoService) {
+    init(weatherService: FetchWeatherInfoServiceInterface) {
         self.weatherService = weatherService
     }
 

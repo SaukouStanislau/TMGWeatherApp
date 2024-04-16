@@ -33,6 +33,5 @@ struct FavouriteButtonView: View {
 }
 
 #Preview {
-    let viewModel = FavouriteButtonViewModel(cityName: "Minsk", fetchFavouritesService: FetchFavouritesService(favouriteStorage: FavouriteStorage()))
-    return FavouriteButtonView(viewModel: viewModel)
+    FavouriteButtonViewBuilder.favouriteButton(for: "Minsk")
 }

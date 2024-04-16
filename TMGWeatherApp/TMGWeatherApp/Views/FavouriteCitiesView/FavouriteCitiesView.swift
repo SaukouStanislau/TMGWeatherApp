@@ -23,6 +23,8 @@ struct FavouriteCitiesView: View {
 
 // MARK: - Private
 
+#warning("Order of Cities")
+
 private extension FavouriteCitiesView {
     var title: some View {
         HStack {
@@ -39,14 +41,8 @@ private extension FavouriteCitiesView {
         ScrollView {
             ForEach(Array(viewModel.citiesWeather.keys), id: \.self) { city in
                 if let weatherInfo = viewModel.citiesWeather[city] {
-                    let cityWeather = CityWeatherViewModel(
-                        weatherInfo: weatherInfo,
-                        weatherService: OpenMapFetchWeatherInfoService(),
-                        weatherIconsService: OpenMapWeatherIconsService(),
-                        settingsStorage: SettingsStorage()
-                    )
-                    NavigationLink(destination: CityWeatherView(cityWeather: cityWeather)) {
-                        ShortCityWeatherView(cityWeather: cityWeather)
+                    NavigationLink(destination: CityWeatherViewBuilder.cityWeatherView(for: weatherInfo)) {
+                        CityWeatherViewBuilder.shortCityWeatherView(for: weatherInfo)
                     }
                 }
             }

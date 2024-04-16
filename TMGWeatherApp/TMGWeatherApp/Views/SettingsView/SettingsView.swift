@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var model: SettingsViewModel
+    @ObservedObject var viewModel: SettingsViewModel
 
     var body: some View {
         Form {
-            GenericPickerView(choosedValue: $model.choosedTemperature, title: "Temperature", values: TemperatureUnit.allCases)
+            GenericPickerView(choosedValue: $viewModel.choosedTemperature, title: "Temperature", values: TemperatureUnit.allCases)
         }
         .navigationBarTitle("Settings", displayMode: .inline)
         .toolbarBackground(.visible, for: .navigationBar)
@@ -20,6 +20,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    let model = SettingsViewModel(settingsStorage: SettingsStorage())
-    return SettingsView(model: model)
+    SettingsViewBuilder.settingsView
 }

@@ -11,7 +11,7 @@ import SwiftUI
 struct TMGWeatherAppApp: App {
     var body: some Scene {
         WindowGroup {
-            EnterCityView(viewModel: EnterCityViewModel(weatherService: OpenMapFetchWeatherInfoService()))
+            EnterCityViewBuilder.enterCityView
         }
     }
 }

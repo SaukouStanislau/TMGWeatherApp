@@ -32,10 +32,7 @@ struct CityWeatherView: View {
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    FavouriteButtonView(viewModel: FavouriteButtonViewModel(
-                        cityName: cityWeather.cityName,
-                        fetchFavouritesService: FetchFavouritesService(favouriteStorage: FavouriteStorage()))
-                    )
+                    FavouriteButtonViewBuilder.favouriteButton(for: cityWeather.cityName)
                 }
             }
     }
@@ -77,7 +74,7 @@ private extension CityWeatherView {
     }
 
     var gradientBackground: some View {
-        TimeWeatherBasedView(viewModel: TimeWeatherBasedViewModel(weatherInfo: cityWeather.weatherInfo))
+        TimeWeatherBasedViewBuilder.timeWeatherBasedView(for: cityWeather.weatherInfo)
     }
 
     @ViewBuilder
@@ -134,11 +131,5 @@ private extension CityWeatherView {
 }
 
 #Preview {
-    let cityWeather = CityWeatherViewModel(
-        weatherInfo: WeatherInfo.previewWeatherInfo, 
-        weatherService: OpenMapFetchWeatherInfoService(), 
-        weatherIconsService: OpenMapWeatherIconsService(),
-        settingsStorage: SettingsStorage()
-    )
-    return CityWeatherView(cityWeather: cityWeather)
+    CityWeatherViewBuilder.cityWeatherView(for: WeatherInfo.previewWeatherInfo)
 }

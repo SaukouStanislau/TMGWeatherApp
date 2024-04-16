@@ -5,11 +5,11 @@
 //  Created by Stanislau Saukou on 28.03.24.
 //
 
-protocol WeatherIconsService {
+protocol WeatherIconsServiceInterface {
     func getIconStringURLForWeatherStatus(_ weatherStatus: WeatherInfo.WeatherStatus) -> String?
 }
 
-final class OpenMapWeatherIconsService: WeatherIconsService {
+final class OpenMapWeatherIconsService: WeatherIconsServiceInterface {
     func getIconStringURLForWeatherStatus(_ weatherStatus: WeatherInfo.WeatherStatus) -> String? {
         guard let icon = weatherStatus.icon else {
             return nil
