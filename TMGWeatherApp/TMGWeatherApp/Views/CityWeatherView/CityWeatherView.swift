@@ -32,9 +32,10 @@ struct CityWeatherView: View {
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    FavouriteButtonView(state: $cityWeather.favouriteProcessingState, action: {
-                        cityWeather.didTriggerFavouriteButton()
-                    })
+                    FavouriteButtonView(viewModel: FavouriteButtonViewModel(
+                        cityName: cityWeather.cityName,
+                        fetchFavouritesService: FetchFavouritesService(favouriteStorage: FavouriteStorage()))
+                    )
                 }
             }
     }
@@ -137,8 +138,7 @@ private extension CityWeatherView {
         weatherInfo: WeatherInfo.previewWeatherInfo, 
         weatherService: OpenMapFetchWeatherInfoService(), 
         weatherIconsService: OpenMapWeatherIconsService(),
-        settingsStorage: SettingsStorage(), 
-        favouritesService: FetchFavouritesService(favouriteStorage: FavouriteStorage())
+        settingsStorage: SettingsStorage()
     )
     return CityWeatherView(cityWeather: cityWeather)
 }

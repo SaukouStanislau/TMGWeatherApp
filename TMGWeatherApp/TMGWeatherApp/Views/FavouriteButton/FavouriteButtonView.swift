@@ -7,20 +7,14 @@
 
 import SwiftUI
 
-enum FavouriteProcessingState {
-    case processing
-    case favourite(Bool)
-}
-
 struct FavouriteButtonView: View {
-    @Binding var state: FavouriteProcessingState
-    let action: () -> Void
+    @ObservedObject var viewModel: FavouriteButtonViewModel
 
     var body: some View {
         Button(action: {
-            action()
+            viewModel.didTriggerButton()
         }, label: {
-            switch state {
+            switch viewModel.favouriteProcessingState {
             case .processing:
                 progressView
             case let .favourite(favourite):
@@ -38,21 +32,7 @@ struct FavouriteButtonView: View {
     }
 }
 
-struct FavouriteButtonViewPreviewContainer: View {
-    @State private var favourite: Bool = false
-    @State private var state: FavouriteProcessingState = .favourite(false)
-
-    var body: some View {
-        FavouriteButtonView(state: $state, action: {
-            state = .processing
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                favourite.toggle()
-                state = .favourite(favourite)
-            })
-        })
-    }
-}
-
 #Preview {
-    FavouriteButtonViewPreviewContainer()
+    let viewModel = FavouriteButtonViewModel(cityName: "Minsk", fetchFavouritesService: FetchFavouritesService(favouriteStorage: FavouriteStorage()))
+    return FavouriteButtonView(viewModel: viewModel)
 }

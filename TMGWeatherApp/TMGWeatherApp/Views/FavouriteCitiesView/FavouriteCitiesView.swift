@@ -43,8 +43,7 @@ private extension FavouriteCitiesView {
                         weatherInfo: weatherInfo,
                         weatherService: OpenMapFetchWeatherInfoService(),
                         weatherIconsService: OpenMapWeatherIconsService(),
-                        settingsStorage: SettingsStorage(),
-                        favouritesService: FetchFavouritesService(favouriteStorage: FavouriteStorage())
+                        settingsStorage: SettingsStorage()
                     )
                     NavigationLink(destination: CityWeatherView(cityWeather: cityWeather)) {
                         ShortCityWeatherView(cityWeather: cityWeather)
